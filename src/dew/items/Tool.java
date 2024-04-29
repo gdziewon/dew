@@ -8,7 +8,7 @@ public class Tool extends Item {
     public Tool(Tools toolType) {
         super(toolType.getPrice(), toolType.name());
         this.toolType = toolType;
-        this.durability = 100; // default durability
+        this.durability = 100;
     }
 
     public int getDurability() {

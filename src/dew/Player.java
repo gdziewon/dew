@@ -1,24 +1,20 @@
 package dew;
 
-import dew.items.Pot;
 import dew.places.Basement;
-import dew.plants.Harvest;
+import dew.plants.Strains;
 
 import java.util.Vector;
 
 public class Player {
-    private final String name;
     private final Basement basement;
-    private final Vector<Harvest> harvests;
+    private final Vector<Strains> harvests;
     private double money;
     private int waterBill;
 
-    public Player(String name) {
-        this.name = name;
+    public Player() {
         this.money = 1000;
         this.harvests = new Vector<>();
         this.basement = new Basement();
-        this.basement.addPot(new Pot());
         this.waterBill = 0;
     }
 
@@ -33,8 +29,8 @@ public class Player {
     public void displayHarvests() {
         System.out.println("Your harvests:");
         for (int i = 0; i < getHarvests().size(); i++) {
-            Harvest harvest = getHarvests().get(i);
-            System.out.println(i + ". " + harvest.strainType().name() + " harvest - Price: " + harvest.price());
+            Strains strain = getHarvests().get(i);
+            System.out.println(i + ". " + strain.name() + " harvest - Price: " + strain.getPrice());
         }
     }
 
@@ -54,20 +50,24 @@ public class Player {
         }
     }
 
-    public Vector<Harvest> getHarvests() {
+    public void pay(int amount) {
+        if (money >= amount) {
+            money -= amount;
+        } else {
+            throw new IllegalArgumentException("Not enough money to pay");
+        }
+    }
+
+    public Vector<Strains> getHarvests() {
         return harvests;
     }
 
-    public void addHarvest(Harvest harvest) {
-        this.harvests.add(harvest);
+    public void addHarvest(Strains strain) {
+        this.harvests.add(strain);
     }
 
-    public void removeHarvest(Harvest harvest) {
-        this.harvests.remove(harvest);
-    }
-
-    public String getName() {
-        return name;
+    public void removeHarvest(Strains strain) {
+        this.harvests.remove(strain);
     }
 
     public void increaseWaterBill(int amount) {

@@ -1,6 +1,6 @@
 package dew.items;
 
-public enum Consumables {
+public enum Consumables implements PricedItem {
     FERTILIZER(20, 5),
     PESTICIDE(30, 10);
 
@@ -12,6 +12,7 @@ public enum Consumables {
         this.bonus = bonus;
     }
 
+    @Override
     public int getPrice() {
         return price;
     }

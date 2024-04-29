@@ -20,6 +20,7 @@ public class Basement {
         this.pots = new Vector<>();
         this.seeds = new Vector<>();
         this.scanner = new Scanner(System.in);
+        addPot(new Pot());
     }
 
     public void useTool(Pot pot) {
@@ -59,12 +60,9 @@ public class Basement {
         int consumableIndex = scanner.nextInt();
         if (consumableIndex >= 0 && consumableIndex < getItems().size()) {
             Item item = getItems().get(consumableIndex);
-            if (item instanceof Consumable consumable) {
+            if (item instanceof Consumable) {
                 item.use(pot);
-                consumable.setQuantity(consumable.getQuantity() - 1);
-                if (consumable.getQuantity() == 0) {
-                    getItems().remove(item);
-                }
+                getItems().remove(item);
                 System.out.println("You used a " + item.getType() + " consumable!");
             } else {
                 System.out.println("This item is not a consumable.");

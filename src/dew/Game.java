@@ -5,8 +5,8 @@ import dew.items.Pot;
 import dew.items.Tool;
 import dew.places.Store;
 import dew.places.Street;
-import dew.plants.Harvest;
 import dew.plants.Seed;
+import dew.plants.Strains;
 
 import java.util.Scanner;
 
@@ -17,8 +17,8 @@ public class Game {
     private final Street street;
     private final Scanner scanner;
 
-    public Game(String name) {
-        this.player = new Player(name);
+    public Game() {
+        this.player = new Player();
         this.store = new Store();
         this.street = new Street();
         this.scanner = new Scanner(System.in);
@@ -26,7 +26,7 @@ public class Game {
 
     public void start() {
         new Thread(this::gameLoop).start();
-        System.out.println("Welcome to dew, " + player.getName());
+        System.out.println("Welcome to dew!");
         boolean isRunning = true;
         while (isRunning) {
             System.out.println("Choose an action: 1. Go to store, 2. Go to basement, 3. Exit");
@@ -91,24 +91,10 @@ public class Game {
             System.out.println("You have " + player.getMoney() + " money.");
             store.displayStoreItems();
             itemIndex = scanner.nextInt();
-            handleStoreAction(itemIndex);
+            store.handleStoreAction(itemIndex, player);
         } while (itemIndex != -1);
     }
 
-    private void handleStoreAction(int itemIndex) {
-        if (itemIndex >= 0 && itemIndex < store.getItems().size()) {
-            store.buyItem(player, store.getItems().get(itemIndex));
-            System.out.println("You bought " + store.getItems().get(itemIndex).getType() + "!");
-        } else if (itemIndex == store.getItems().size() && player.getBasement().getPots().size() < 10 && !store.getPots().isEmpty()) {
-            store.buyPot(player, store.getPots().get(0));
-            System.out.println("You bought a pot!");
-        } else if (itemIndex > store.getItems().size() && itemIndex <= store.getItems().size() + store.getSeeds().size()) {
-            store.buySeed(player, store.getSeeds().get(itemIndex - store.getItems().size() - 1));
-            System.out.println("You bought a " + store.getSeeds().get(itemIndex - store.getItems().size() - 1).getStrainType().name() + " seed!");
-        } else if (itemIndex != -1) {
-            System.out.println("Invalid item index.");
-        }
-    }
 
     private void goToBasement() {
         int potIndex;
@@ -163,10 +149,10 @@ public class Game {
                 player.getBasement().useConsumable(pot);
                 break;
             case 5:
-                Harvest harvest = pot.harvestPlant();
+                Strains harvest = pot.harvestPlant();
                 if (harvest != null) {
-                    player.getHarvests().add(harvest);
-                    System.out.println("You harvested a " + harvest.strainType().name() + " plant!");
+                    player.addHarvest(harvest);
+                    System.out.println("You harvested a " + harvest.name() + " plant!");
                 }
                 break;
             case 6:

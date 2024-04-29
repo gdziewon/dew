@@ -1,6 +1,6 @@
 package dew.items;
 
-public enum Tools {
+public enum Tools implements PricedItem {
     LAMP(10, 100, 1),
     EPIC_LAMP(5, 200, 2),
     FAN(15, 150, 2),
@@ -20,6 +20,7 @@ public enum Tools {
         return currentIntake;
     }
 
+    @Override
     public int getPrice() {
         return price;
     }

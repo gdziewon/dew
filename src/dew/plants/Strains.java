@@ -1,6 +1,8 @@
 package dew.plants;
 
-public enum Strains {
+import dew.items.PricedItem;
+
+public enum Strains implements PricedItem {
     BUSH(30, new int[]{10, 20}),
     JFK(40, new int[]{15, 25}),
     OBAMA(60, new int[]{20, 30}),
@@ -21,5 +23,10 @@ public enum Strains {
 
     public int[] getValueRange() {
         return valueRange;
+    }
+
+    @Override
+    public int getPrice() {
+        return valueRange[0] / 2;
     }
 }

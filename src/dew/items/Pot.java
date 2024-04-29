@@ -1,14 +1,14 @@
 package dew.items;
 
-import dew.plants.Harvest;
 import dew.plants.Plant;
 import dew.plants.Seed;
+import dew.plants.Strains;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Pot {
+public class Pot implements PricedItem {
     private final List<Tool> tools;
     private Plant plant;
 
@@ -50,15 +50,15 @@ public class Pot {
         return sb.toString();
     }
 
-    public Harvest harvestPlant() {
+    public Strains harvestPlant() {
         if (isEmpty()) {
             System.out.println("This pot is empty.");
             return null;
         }
         if (plant.isFullyGrown()) {
-            Harvest harvest = new Harvest(plant.getStrainType(), plant.getStrainType().getValueRange()[1]);
+            Strains strain = plant.getStrainType();
             this.plant = null;
-            return harvest;
+            return strain;
         } else {
             System.out.println("The plant is not fully grown.");
             return null;
@@ -111,5 +111,15 @@ public class Pot {
 
     public void addTool(Tool tool) {
         tools.add(tool);
+    }
+
+    @Override
+    public int getPrice() {
+        return 50;
+    }
+
+    @Override
+    public String name() {
+        return "Pot";
     }
 }

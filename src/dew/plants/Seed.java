@@ -5,20 +5,19 @@ import dew.items.Pot;
 
 public class Seed extends Item {
     private final Strains strainType;
-    private final int price;
 
-    public Seed(Strains strainType, int price) {
-        super(price, strainType.name());
+    public Seed(Strains strainType) {
+        super(strainType.getPrice(), strainType.name());
         this.strainType = strainType;
-        this.price = price;
     }
 
     public Strains getStrainType() {
         return strainType;
     }
 
+    @Override
     public int getPrice() {
-        return price;
+        return strainType.getPrice();
     }
 
     @Override
